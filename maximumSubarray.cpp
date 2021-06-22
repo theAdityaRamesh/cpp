@@ -7,10 +7,7 @@ using namespace std;
 
 vector<int> getMaxSubArray(const vector<int>& arr ){
 
-    int maxSum=0;
-    int startIndx=0;
-    int endIndx=0;
-    int tempSum=0;
+    int maxSum=0, startIndx=0, endIndx=0, tempSum=0;
 
     for(int i = 0; i < arr.size(); i++){
     
