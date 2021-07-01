@@ -91,7 +91,7 @@ int main(int argc, const char** argv) {
     for (int test = 0; test < numTests; test++) {
     
         // initialize array
-        int size = rand()%5+ 1;
+        int size = rand()%5000+ 1;
         int range = 50;
         vector<int> arr(size, 0);
     
