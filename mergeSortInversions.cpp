@@ -36,47 +36,46 @@ int merge(int start, int end, vector<int>& arr) {
             inv += (mid-left+1);
             temp[curr] = arr[right];
             right += 1;
-            curr += 1;
         } else {
             temp[curr] = arr[left];
             left += 1;
-            curr += 1;
         }
-    }
 
-    while (right < (end + 1)){
-        temp[curr] = arr[right];
-        right += 1;
         curr += 1;
     }
 
-    while (left < (mid + 1)){
-        temp[curr] = arr[left];
-        left += 1;
-        curr += 1;
+
+    vector<int>::iterator itTemp 
+        = temp.begin() + curr;
+    vector<int>::iterator itArr 
+        = arr.begin() + right;
+
+    if (right < (end + 1)){
+        copy(itArr, arr.begin()+end+1, itTemp);
     }
 
-    int j = 0;
-    for (int i = start; i < end+1; i++) {
-        arr[i] = temp[j];
-        j+=1;
+    itArr = arr.begin() + left;
+
+    if (left < (mid + 1)){
+        copy(itArr, arr.begin()+mid+1, itTemp);
     }
+
+    itArr = arr.begin() + start;
+    copy(temp.begin(), temp.end(), itArr);
+
 
     return inv;
-
-
 }
 
 int getInversionsMergeSort(int start, int end, vector<int>& arr){
 
-    int mid = 0, leftInversions = 0, rightInversions = 0, inv = 0;
+    int mid = 0, inv = 0;
 
     if( start < end){
         mid = (start + end)/2;
-        leftInversions = getInversionsMergeSort(start, mid, arr);
-        rightInversions = getInversionsMergeSort(mid + 1, end, arr);
-        inv = merge(start, end, arr) + leftInversions + rightInversions; 
-        
+        inv = getInversionsMergeSort(start, mid, arr)
+                 + getInversionsMergeSort(mid + 1, end, arr) +
+                     merge(start, end, arr);      
     }
 
     return inv;
@@ -96,8 +95,8 @@ int main(int argc, const char** argv) {
         vector<int> arr(size, 0);
     
         // populate array
-        for (int i = 0; i < size; i++) {
-            arr[i] = rand()%range-(range/2);
+        for (vector<int>::iterator i = arr.begin(); i < arr.end(); i++) {
+            *i = rand()%range-(range/2);
         } 
 
         // test cases
@@ -106,8 +105,8 @@ int main(int argc, const char** argv) {
 
         if ((invBF - invMS) != 0){
             cout << endl << endl  << "[ " ;
-            for (int i = 0; i < size; i++) {
-                cout << arr[i] << " ";
+            for (vector<int>::iterator i = arr.begin(); i < arr.end(); i++) {
+                cout << *i << " ";
             } cout << "]" << endl ;
             cout << invBF << " " << invMS ;
             break;
