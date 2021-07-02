@@ -9,9 +9,9 @@ int getInversionsBruteForce(int size,const vector<int>& arr){
 
     int inv = 0;
 
-    for(int i = 0; i < size; i++){
-        for (int j = i; j < size; j++ ){
-            if (arr[i] > arr [j]){
+    for(vector<int>::const_iterator i = arr.begin(); i < arr.end(); i++){
+        for (vector<int>::const_iterator j = i+1; j < arr.end(); j++ ){
+            if (*i > *j){
                 inv += 1;
             }
         }
