@@ -41,7 +41,7 @@ int main(int argc, char const *argv[])
     
 
 
-
+    // random generation 	
     srand(time(NULL));
     int numElements = rand()%100+1;
     vector<float> arr(numElements);
