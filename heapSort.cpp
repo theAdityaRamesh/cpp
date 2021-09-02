@@ -3,33 +3,9 @@
 #include<vector>
 #include<time.h>
 #include<algorithm>
+#include<string>
 
 using namespace std;
-
-// max heap implementation
-
-    //variables
-        //heap size    
-
-    //getters
-        // get parent
-        // get left child
-        // get right child
-        // get heap size
-        // get node
-        // get heap maximum
-    
-    // setters
-
-    // methods
-        // max heapify (i)
-        // build max-heap
-        // heap sort
-        // insert into heap
-        // remove from heap
-        // heap extract max
-        // heap increase key
-
         
 template<typename T>
 class Heap {
@@ -37,6 +13,7 @@ class Heap {
     private:
         int heapSize = 0;
         vector<T> maxHeap;
+
 
     public:
     Heap(vector<T>& arr){
@@ -57,17 +34,33 @@ class Heap {
     }
 
     int getLeftChild(int indx){
-        return ((indx+1)<<1)-1;
+        return 2*(indx+1)-1;
     }
 
     int getRightChild(int indx){        
-        return (indx+1)<<1;
+        return 2*(indx+1);
     }
 
     //methods
 
-    void printMaxHeap(){
-        
+    void printHeap(){
+
+        cout << endl << endl ;
+
+        int height = floor(log2(heapSize));
+        int level = 0;
+
+        while(level  < height+1){
+            int i = pow(2,level)-1;
+            while(i < (pow(2,level+1)-1) && i < heapSize){
+                cout << maxHeap[i] << " " ;
+                i += 1; 
+            } cout << endl;
+
+            level += 1;
+        }
+
+        cout << endl << endl ;
     }
 
     void maxHeapify(int indx){
@@ -77,7 +70,8 @@ class Heap {
 
         if(maxHeap[left] > maxHeap[indx] && left < heapSize){
             maxIndx = left;
-        } else if (maxHeap[right] > maxHeap[indx] && right < heapSize){
+        }
+        if (maxHeap[right] > maxHeap[indx] && maxHeap[right] > maxHeap[left] && right < heapSize){
             maxIndx = right;
         } 
 
@@ -86,20 +80,72 @@ class Heap {
             maxHeapify(maxIndx);
         }
     }
+
+    void buildMaxHeap(){
+       
+        for(int i = floor(heapSize/2)-1;i != -1;i--){ 
+            maxHeapify(i);
+        } 
+    }
+
+    T extractMax(){
+        T max = maxHeap[0];
+        T last = maxHeap[heapSize-1];
+        maxHeap[0] = last;
+        heapSize -= 1;
+        maxHeapify(0);
+
+        return max;
+    }
     
+    vector<T> heapSort() {
+        vector<T> sortedArr(maxHeap.begin(), maxHeap.end()); 
+                
+        for(int i = heapSize-1; i != -1; i--){
+            sortedArr[i] = extractMax();
+        }  
+        return sortedArr;    
+    }
+
+
 };
 
 
 int main(int argc, char const *argv[])
 {   
-    vector<int> arr;
-    arr.push_back(1);
-    arr.push_back(2);
-    arr.push_back(-5);
-    arr.push_back(10);
+    // random generation 	
+    srand(time(NULL));
+    int numElements = rand()%1000+1;
+    vector<float> arr(numElements);
+    
+    int numTest = pow(10,3);
+    
 
-    Heap<int> maxHeap(arr);
-    cout << maxHeap.getHeapSize() << endl;
-    maxHeap.maxHeapify(0);
-    return 0;
+    for(int testCase = 0;testCase < numTest; testCase++){
+
+        cout << testCase << endl ;
+
+        // populate array
+        for (int iter = 0; iter < numElements; iter++){
+            arr[iter] = rand()%500-250 + (rand()%500)/pow(10,4);  
+        } 
+
+        vector<float> test = arr;
+        sort(test.begin(),test.end());
+
+        // sort the array
+        Heap<float> h(arr);
+        h.buildMaxHeap();
+        arr = h.heapSort();
+
+        // compare results
+        for (int iter = 0; iter < numElements; iter++){
+                if(arr[iter] != test[iter] ){
+                    cout << "Error" << endl;
+                    break;
+                } 
+            }
+
+     
+    }
 }
