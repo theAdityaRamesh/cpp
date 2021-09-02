@@ -52,22 +52,14 @@ int main(int argc, char const *argv[])
 
         cout << testCase << endl ;
 
-        // cout << "[ " ;
+
         for (int iter = 0; iter < numElements; iter++){
             arr[iter] = rand()%500-250 + (rand()%500)/pow(10,4);
-            // cout << arr[iter] << " ";
         }
-        // cout << "] ";
+        
         test = arr;
         sort(test.begin(), test.end());
         quickSort(arr,0,numElements-1);
-
-    
-
-        // cout << endl << endl << "[ " ;
-        // for (int iter = 0; iter < numElements; iter++){
-        //     cout << arr[iter] << " ";
-        // } cout << " ] ";
 
         if(test != arr){
             cout << "Error";
