@@ -7,7 +7,7 @@
 
 using namespace std;
 
-// countingSort.cpp
+// countingSort
 
 vector<int> countingSort(const vector<int>& arr){
 
