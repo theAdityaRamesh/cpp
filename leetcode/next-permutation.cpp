@@ -1,5 +1,9 @@
 //leetcode.com/problems/next-permutation/
 
+// method - 2
+
+
+// method - 1 - aditya
 class Solution {
 public:
     
@@ -9,16 +13,30 @@ public:
         }
     }
     
-    int findNextSmallestIndx(const vector<int>& num, int cindx){
-        for(int it = cindx-1; it != -1; it--){
-            if( num[it] < num[cindx]){
-                // return indx of next smallest number
-                return it;
-            }    
+    void findNextSmallestIndx(const vector<int>& nums,int& iter, int& maxIndx){
+    
+        maxIndx = -1;
+        
+        for(int it = nums.size()-1; it!= -1; it--){
+            
+            if(it == maxIndx) {
+                    break;
+            }
+            
+            for(int cit = it-1; cit != -1; cit--){
+                
+                if(cit == maxIndx) {
+                    break;
+                }
+
+                if(nums[cit] < nums[it] && cit > maxIndx){
+                    maxIndx = cit;
+                    iter = it;
+                }
+            }
         }
         
-        // largest number @ num[cindx] 
-        return -1;
+        
     }
     
     void nextPermutation(vector<int>& nums) {
@@ -26,24 +44,22 @@ public:
         if(nums.size() == 1){
             return;
         }
-       
-        int indx = -1, cindx = nums.size()-1;
         
-        for(int it = cindx; it != -1; it--){
-            // get indx of next smallest number
-            if(nums[it] == 0) { continue;}
-            
-            indx = findNextSmallestIndx(nums, it) ;
-            if (indx != -1){
-                // swap the current tracked element with the next smallest element
-                swap(nums[indx],nums[it]);
-                break;
-            }
+        int it, indx;
+        // return the indices of the closest swap
+        // start from last and keep scanning till you find first number smaller than current indx
+        // save it as maxIndx
+        // continue last - 1 and repeat 
+        // if current Indx becomes maxIndx stop scanning and return maxIndx and number just larger than it
+        findNextSmallestIndx(nums, it, indx);
+        
+        // swap the 2 numbs
+        if(indx != -1){
+            swap(nums[it], nums[indx]);
         }
         
-      
+        // sort after the swapped indx
         sort(nums.begin()+indx+1,nums.end());
-        printVector(nums);
     }
 };
 
