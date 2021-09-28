@@ -1,8 +1,5 @@
 //leetcode.com/problems/next-permutation/
 
-// method - 2
-
-
 // method - 1 - aditya
 class Solution {
 public:
