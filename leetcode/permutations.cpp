@@ -50,3 +50,35 @@ public:
         return result;
     }
 };
+
+
+class Solution { 
+
+    public:
+    
+    void gPermute(int indx, vector<int> nums, vector<vector<int>>& result){
+        
+        if(indx == nums.size()){
+            result.push_back(nums);
+            return;
+        }
+        
+        for(int i = indx; i < nums.size(); i++){
+            swap(nums[i],nums[indx]);
+            gPermute(indx+1, nums, result);
+            swap(nums[i], nums[indx]);
+        
+            }
+        
+    }
+    
+    vector<vector<int>> permute(vector<int>& nums) {
+     
+        vector<vector<int>> result;
+        gPermute(0, nums, result);
+        
+        return result;
+    }
+
+};
+
