@@ -6,6 +6,14 @@ public:
         
         if(target < arr[0] || arr.empty()){
             return 0;
+        } 
+        
+        if(target > arr[arr.size()-1]){
+            return arr.size();
+        }
+        
+        if(target == arr[arr.size()-1]){
+            return arr.size()-1;
         }
         
         int head = 0, tail = arr.size()-1, mid = (head+tail)*0.5;
@@ -25,6 +33,6 @@ public:
             }
         }
     
-        
+        return mid;
     }
 };
