@@ -14,9 +14,11 @@
 class Solution {
 public:
 
-    deque<int> minHeap;
-    deque<int> track;
-    void minHeapify(int i, int left, int right, int heapSize){
+    vector<int> minHeap;
+    vector<int> track;
+    int heapSize = 0;
+    
+    void minHeapify(int i, int left, int right){
             
         int smallest = i;
         
@@ -33,22 +35,10 @@ public:
                 swap(minHeap[i], minHeap[smallest]);
                 swap(track[i], track[smallest]);
                 
-                minHeapify(smallest, 2*i+1, 2*i+2, heapSize);
+                minHeapify(smallest,2*i+2 ,2*i+1);
             }            
         } 
-    
-
-    
-    ListNode* addNode(ListNode* last, int num){
-        ListNode* node = new ListNode;
-        node->val = num;
-        node->next = nullptr;
-        last->next = node;
-
-        return node;
-    }
-    
-    
+       
     
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         
@@ -63,7 +53,7 @@ public:
         
         
         ListNode* listPtr;
-        int heapSize = minHeap.size();
+        
         
         for (int i = 0; i < lists.size(); i++){
             listPtr = lists[i];
@@ -75,14 +65,15 @@ public:
             // add the heads of the k lists
             // to the minHeap
             minHeap.push_back(listPtr->val);
+            heapSize++;
             track.push_back(i);
         }
         
         // min heapify min heap made of
         // heads of k linked lists
-        heapSize = minHeap.size();
+       
         for(int i = heapSize/2; i >= 0 ; i--){
-            minHeapify(i,2*i+1,2*i+2, heapSize);
+            minHeapify(i,2*i+2,2*i+1);
         }
        
         ListNode* head = new ListNode;
@@ -92,26 +83,31 @@ public:
         
         int root = 0;
         int listNum = 0;
-        while(minHeap.size() != 0){
-            
+        while(heapSize != 0){
             
             root = minHeap[0]; //extract root
             listNum = track[0]; // track keeps track of which list the root belonged to
-            lists[listNum] = lists[listNum]->next; // delete head and move it to next node
+            lists[listNum] = lists[listNum]->next; // delete head and move it to next node     
             
-            minHeap.pop_front();
-            track.pop_front();           
             
             // added root to result list
-            last = addNode(last, root);
-            if(lists[listNum] != nullptr){
-                minHeap.push_back(lists[listNum]->val);
-                track.push_back(listNum);
-            }          
+             ListNode* node = new ListNode;
+             node->val = root;
+             node->next = nullptr;
+             last->next = node;   
+             last = node;
             
-            heapSize = minHeap.size();
+            if(lists[listNum] != nullptr){
+                minHeap[0] = (lists[listNum]->val);
+                track[0] = (listNum);
+            } else {
+                swap(minHeap[0],minHeap[heapSize-1]);
+                swap(track[0],track[heapSize-1]);
+                heapSize--;  
+            }       
+            
             for(int i = heapSize/2; i >= 0 ; i--){
-                minHeapify(i,2*i+1,2*i+2, heapSize);
+                minHeapify(i,2*i+1,2*i+2);
             }
         }
         
