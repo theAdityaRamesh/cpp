@@ -64,8 +64,7 @@ public:
         
         ListNode* listPtr;
         int heapSize = minHeap.size();
-        // iterate thru each list and store size
-        // in listSize vector
+        
         for (int i = 0; i < lists.size(); i++){
             listPtr = lists[i];
             
