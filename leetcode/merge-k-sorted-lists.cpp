@@ -82,7 +82,7 @@ public:
         // min heapify min heap made of
         // heads of k linked lists
         heapSize = minHeap.size();
-        for(int i = minHeap.size()/2; i >= 0 ; i--){
+        for(int i = heapSize/2; i >= 0 ; i--){
             minHeapify(i,2*i+1,2*i+2, heapSize);
         }
        
@@ -111,7 +111,7 @@ public:
             }          
             
             heapSize = minHeap.size();
-            for(int i = minHeap.size()/2; i >= 0 ; i--){
+            for(int i = heapSize/2; i >= 0 ; i--){
                 minHeapify(i,2*i+1,2*i+2, heapSize);
             }
         }
