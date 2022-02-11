@@ -1,3 +1,106 @@
+
+// -------------------------------------------------------------------------------------------------- MI ----------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// USING DIVIDE AND CONQUER
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+
+
+class Solution {
+public:
+
+    
+    int merge(vector<ListNode*>& lists, int left, int right){
+        if(left < right){
+            
+            int mid = (left+right)/2;
+            
+            // divide lists
+            left = merge(lists, left, mid);
+            right = merge(lists, mid+1, right);
+       
+            // assumption : always merge in left list
+            ListNode* temp = new ListNode;
+            ListNode* curr = temp;
+            
+            // compare lists and remove nodes
+            while(lists[left] != nullptr && lists[right] != nullptr){
+                if(lists[left]->val >= lists[right]->val){
+                    curr->next = lists[right];
+                    lists[right] = lists[right]->next;
+                    curr->next->next = nullptr;
+                    curr = curr->next;
+                } else { 
+                    curr->next = lists[left];
+                    lists[left] = lists[left]->next;
+                    curr->next->next = nullptr;
+                    curr = curr->next;                
+                }
+            }
+            
+            // collect remaining elements in left list
+            if(lists[right] != nullptr){
+                while(lists[right] != nullptr){
+                    curr->next = lists[right];
+                    lists[right] = lists[right]->next;
+                    curr->next->next = nullptr;
+                    curr = curr->next;
+                }
+            }
+            
+            // collect remaining elements in right list
+            if(lists[left] != nullptr){
+                while(lists[left] != nullptr){
+                    curr->next = lists[left];
+                    lists[left] = lists[left]->next;
+                    curr->next->next = nullptr;
+                    curr = curr->next;
+                }
+            }
+            
+            temp = temp->next;
+            lists[left] = temp;
+            return left;
+            
+            
+        } 
+        // return right when down to 1 list
+        return right;
+    } 
+
+    
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        
+        // edge cases for empty lists
+        if(lists.size()==0){
+            return NULL;
+        }
+        // edge cases for empty lists
+        if(lists.size() == 1 && lists[0] == NULL){
+            return NULL;
+        }
+       
+        return lists[merge(lists,0,lists.size()-1)];
+   }
+};
+
+
+
+
+// ------------------------------------------------------------------------------------------------MII ----------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// USING MIN HEAPS
+
 /**
  * Definition for singly-linked list.
  * struct ListNode {
