@@ -1,3 +1,73 @@
+// faster method O(n^2) almost
+
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        
+        vector<vector<int>> res;
+        vector<int> gray(nums.size(),0);
+        vector<int> ans;
+        
+        int size = nums.size();
+        
+        if(size < 3) {
+            return res;
+        }
+        
+
+        sort(nums.begin(), nums.end());
+
+        if( (nums[0] > 0) || (nums[size-1] < 0) ){
+            return res;
+        } 
+        
+        
+        else {
+        
+            // fix first element
+            for(int i = 0; i < nums.size() && nums[i] <= 0; i++){
+                
+                // skip duplicate elements
+                if( i > 0 && nums[i] == nums[i-1]){continue;}
+                
+                int left = i+1;
+                int right = size-1;
+                
+                while( left < right){
+                    
+                    if(nums[left] + nums[right] + nums[i] == 0){
+                        res.push_back( {nums[i], nums[left], nums[right]} );
+                        
+                        while(left < nums.size()-2 && nums[left+1] == nums[left]){
+                            left++; // skip duplicates
+                        } 
+                        
+                        while(right >0 && nums[right] == nums[right-1]){
+                            right--; // skip duplicates
+                        }
+                        
+                        left++;
+                        right--;
+                        
+                    } else {
+                        
+                        if( nums[left] + nums[right] > -nums[i]){
+                            right--;
+                        } else { left++; }
+                        
+                    }
+                    
+                }  
+            }
+            
+        }
+    
+        return res;
+    }
+};
+
+// MI slower method O(n^3) almost
+
 class Solution {
 public:
     vector<vector<int>> threeSum(vector<int>& nums) {
