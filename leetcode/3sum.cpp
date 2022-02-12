@@ -5,19 +5,23 @@ public:
     vector<vector<int>> threeSum(vector<int>& nums) {
         
         vector<vector<int>> res;
-        vector<int> gray(nums.size(),0);
         vector<int> ans;
         
         int size = nums.size();
         
+        // if size of input is < 3
+        // not possible to find a triplet
         if(size < 3) {
             return res;
         }
         
-
+        // sort array to enable faster search
         sort(nums.begin(), nums.end());
 
         if( (nums[0] > 0) || (nums[size-1] < 0) ){
+            // if minimum is +ve or maximum is -ve
+            // its not possible to sum to zero
+            // return empty vector
             return res;
         } 
         
@@ -30,30 +34,42 @@ public:
                 // skip duplicate elements
                 if( i > 0 && nums[i] == nums[i-1]){continue;}
                 
+                // fix left pointer adjacent to first pointer
                 int left = i+1;
+                // fix right pointer at end
                 int right = size-1;
                 
                 while( left < right){
                     
+                    // if zero sum triplet found update result vector
                     if(nums[left] + nums[right] + nums[i] == 0){
                         res.push_back( {nums[i], nums[left], nums[right]} );
                         
+                        // skip forward till we get different element than
+                        // prev match
                         while(left < nums.size()-2 && nums[left+1] == nums[left]){
                             left++; // skip duplicates
                         } 
                         
+                        // skip backword
                         while(right >0 && nums[right] == nums[right-1]){
                             right--; // skip duplicates
                         }
                         
+                        // update left and right 
+                        // since loop ends when next element is distinct
+                        // so left right still on prev match 
                         left++;
                         right--;
                         
                     } else {
                         
+                        // if sum is > than 0 then we have to reduce so
+                        // move left from the end as array is sorted in 
+                        // ascending order
                         if( nums[left] + nums[right] > -nums[i]){
                             right--;
-                        } else { left++; }
+                        } else { left++; } // sum < target increase sum move right
                         
                     }
                     
@@ -63,6 +79,7 @@ public:
         }
     
         return res;
+       
     }
 };
 
