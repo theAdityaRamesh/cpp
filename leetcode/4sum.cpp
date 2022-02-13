@@ -74,6 +74,67 @@ public:
     }
 };
 
+// O(n^3) complexity iterative method with 
+// loop termination conditions
+
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        
+        int size = nums.size();
+        
+        sort(nums.begin(), nums.end());        
+        vector<vector<int>> res;
+        
+        if(size < 4){
+            return res;
+        }
+
+        
+        for(int i = 0; i < size-3; i++){
+
+            
+            if( target < 0 && nums[i] >0){break;}
+            if((long long) nums[i] + nums[i+1] + nums[i+2] + nums[i+3] > target){break;}
+            if( (long long) nums[i] + nums[size-1] + nums[size-2]+nums[size-3] < target){continue;}
+            if(i > 0 && nums[i] == nums[i-1]){continue;}
+            
+            for(int left = i+1; left < nums.size()-2; left++){
+                
+                if((long long) nums[i]+nums[left]+nums[left+1]+nums[left+2] > target){break;}
+                if((long long) nums[i] + nums[left] + nums[size-1] + nums[size-2] < target){continue;}
+                if(left > i+1 && nums[left] == nums[left-1]){continue;}
+
+                int low = left+1;
+                int high = size-1;
+                
+                while( low < high ){
+
+                    int sum = nums[i] + nums[left] + nums[low] + nums[high];
+                    if( sum  == target){
+                        res.push_back({ nums[i], nums[left], nums[low], nums[high] });
+                        
+                        while( low < size-2 && nums[low] == nums[low+1]){ low++ ; }
+                        while( high > 1 && nums[high] == nums[high-1]){ high--; }
+                        
+                        low++;
+                        high--;
+                        
+                    } else {
+                        low = sum < target ? low+1 : low;
+                        high = sum > target ? high-1 : high;
+                    }
+                }
+                
+            }
+            
+        }
+        
+        return res;
+    }
+};
+
+
 // O(n^3) complexity iterative method
 
 class Solution {
