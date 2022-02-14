@@ -1,3 +1,47 @@
+// 4sum by generating all 2sum pairs
+
+class Solution {
+public:
+    unordered_map<int,vector<pair<int,int>>> twoSum;
+    set<vector<int>> fourS;
+        
+    
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        
+        for(int i = 0; i < nums.size(); i++){
+            for(int j = i+1; j < nums.size(); j++){                
+                twoSum[nums[i]+nums[j]].push_back({i,j});
+            }
+        }
+        
+        for(auto [key, value] : twoSum){
+            
+            int match = target - key;
+            
+            if(twoSum.find(match) != twoSum.end()){
+                
+                for(auto[a,b] : twoSum[key]){
+                    for(auto[c,d] : twoSum[match]){
+                        
+                        if(a != c && a != d && b != c && b != d) {
+                            vector<int> temp = { nums[c], nums[d], nums[a], nums[b]};
+                            sort(temp.begin(), temp.end());
+                            fourS.insert(temp);
+                        }
+                        
+                    }
+                }
+                
+            }
+        }
+        
+        vector<vector<int>> res(fourS.begin(), fourS.end());
+        return res;
+    }    
+    
+};
+
+
 // O(n^3) complexity recursive method
 // generalized sum for k sums
 
