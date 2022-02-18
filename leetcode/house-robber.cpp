@@ -1,8 +1,56 @@
 class Solution {
 public:
+   
+    int rob(vector<int>& nums) {
+        
+        int N = nums.size();
+        
+        if(N == 1){
+            return nums[0];
+        } // if only 1 house return 1st house loot
+        
+        if(N == 2){
+            return nums[nums[1]>nums[0]];
+        }// if 2 houses we can rob 1st or 2nd 
+        // return max loot
+        
+        // vector<int> loot represents the maximum loot after robbing each house
+        vector<int> loot(N,-1);
+        loot[0] = nums[0];
+        for(int i = 1; i < N; i++){
+            int pick = nums[i];
+            if(i > 1){
+                pick += loot[i-2];
+            }
+            loot[i] = max(pick,loot[i-1]);
+        }
+            return loot[N-1];
+    }
+};
+
+// for 1st house loot = nums[0]
+// for 2nd house we can choose either 1st or 2nd so we take max
+// for 3rd hpuse we can choose 1,3 or 2
+    // pick = loot in 3rd house + loot in 3-2 = 1th house
+    // no pick is loot in 3-1 th house which is 2nd house loot
+    // we'll choose the maximum of the 2
+// for the 4th house we can choose 1,3 or 2,4
+    // pick = loot in 4th house + loot (4-2) loot in 2nd house
+    // no pick is loot in 3rd house and first house loot[i-1]
+    // we'll take max of the 2
+// and so on till we reach the last house
+
+
+class Solution {
+public:
     
     unordered_map<int,int> maxLootFromPast = {};
     int maxLoot = 0;
+    
+    // the burgle functions goes through all possible routes to loot the house
+    // if we find that loot is increasing take that route
+    // otherwise stop
+    // if loot is increasing then check in the next house
     
     void burgle(const vector<int>& nums, int prevHouse){
         
@@ -21,6 +69,7 @@ public:
                     maxLootFromPast[i] = maxLootFromPast[prevHouse] + nums[i];
                 } else{
                     return;
+                    
                 }
             } else{
                 maxLootFromPast[i] = nums[i] + maxLootFromPast[prevHouse]; 
