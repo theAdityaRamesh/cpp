@@ -23,23 +23,23 @@ public:
             mid = left + (right-left)/2;
             
             if(target > nums[mid]){
-                if(nums[mid] > nums[left]){
-                    left = mid + 1;
-                } else{
-                    if(target <= nums[right]){
+                if(nums[mid] > nums[left]){ // left < mid < target
+                    left = mid + 1; 
+                } else{ // left > mid & mid < target
+                    if(target <= nums[right]){ // mid < target < right
                         left = mid + 1;
-                    } else {
+                    } else { // mid < target < left
                         right = mid - 1;
                     }
                 }
-            } else if( target < nums[mid]) {
-                if(nums[mid] < nums[right]){
+            } else if( target < nums[mid]) { 
+                if(nums[mid] < nums[right]){ // target < mid < right
                     right = mid - 1;
-                } else {
-                    if(target >= nums[left]){
+                } else { 
+                    if(target >= nums[left]){ // left < target < mid
                         right = mid-1;
                     } else{
-                        left = mid + 1;
+                        left = mid + 1; // mid > target > right
                     }
                 }
             } else {
