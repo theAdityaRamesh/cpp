@@ -1,3 +1,41 @@
+// more elegant solution 
+// need to traverse matrix only once
+
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& mat) {
+        
+        vector<vector<bool>> colCheck(9, vector<bool>(9, 0));
+        vector<vector<bool>> blockCheck(9, vector<bool>(9, 0));
+        
+        for(int row = 0; row < 9; row++){
+            vector<bool> rowCheck(9,0);
+            for(int col = 0; col < 9; col++){
+                if(mat[row][col] == '.'){
+                    continue;
+                } 
+                
+                int num = (mat[row][col] - '1');
+                int blockIndx = 3*(row/3) + (col/3);
+                if( rowCheck[num] || colCheck[num][col] || blockCheck[blockIndx][num]){
+                    return false;
+                } else {
+                    rowCheck[num] = true;
+                    colCheck[num][col] = true;
+                    blockCheck[blockIndx][num] = true;
+                }
+            }
+        }
+        
+        
+        return true;
+        
+    }
+};
+
+
+
+
 // basic solution 
 
 class Solution {
