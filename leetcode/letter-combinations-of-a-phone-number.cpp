@@ -3,8 +3,7 @@
 class Solution {
 public:
     
-    vector<string> phoneMap = 
-        {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+    
     
     void generateCombinations(int digits, vector<string>& result, string comb) {
         
@@ -15,7 +14,7 @@ public:
             // loop thru pssiblities of next digit
             string current = phoneMap[digits%10 - 2];
             for(string::iterator it = current.begin(); it < current.end(); it++){
-                generateCombinations(digits/10, result, comb+(*it));        
+                generateCombinations(digits/10, result, (*it)+comb);        
             }
         }
     }
@@ -23,13 +22,34 @@ public:
     
     vector<string> letterCombinations(string digits) {
          
-        vector<string> emp; 
+        vector<string> emp; // string of ans
         if(digits.empty()) {return emp; }
         string comb = "";
-        reverse(digits.begin(),digits.end());
-        generateCombinations(stoi(digits), emp, comb );
+        
+        // convert the digit to integer
+        // so that we can acess the phoneMap
+        // iterate the string backwards
+        // and multiply by placevalue
+        int digit = 0;
+        int placeVal = 1;
+        for(string::reverse_iterator c = digits.rbegin(); c != digits.rend(); c++){
+            digit += (*c-'0')*placeVal;
+            placeVal *= 10;
+        }
+        
+        // call the generator fun recursively
+        // generate the strings recursively
+        // basically there will be k loops
+        // k is num of digits
+        // so we'll use recursion to implement k loops
+        generateCombinations(digit, emp, comb );
         
         
         return emp;
     }
+    
+private:
+    vector<string> phoneMap = 
+        {"abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+    
 };
