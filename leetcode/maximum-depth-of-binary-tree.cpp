@@ -1,3 +1,31 @@
+// using inbuilt stack
+class Solution {
+public:
+
+// recursively travel the tree
+// and update depth iff root is not null
+void getMaxDepth(TreeNode* root, int& ans, int depth){
+    if(root){
+        ans = max(ans,depth);
+        getMaxDepth(root->left, ans, depth+1);
+        getMaxDepth(root->right, ans, depth+1);
+    }
+}
+    
+    
+int maxDepth(TreeNode* root){
+    
+    if(root){
+    int ans = 1;
+    getMaxDepth(root, ans, 1);
+    return ans;
+    }
+    
+    return 0;
+}
+};
+
+// declaring my own stack
 class Solution {
 public:
     int maxDepth(TreeNode* root) {
