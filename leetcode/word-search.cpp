@@ -40,6 +40,8 @@ public:
        bool ans = check(board, word, r+1, c, indx+1)||check(board, word, r-1, c, indx+1)||check(board, word, r, c+1, indx+1)||check(board, word, r, c-1, indx+1);
        board[r][c] = curr; // while going back // unrolling the stack restore the board pos to its correct value
         // this way we avoid maintaining a visited queue
+        // why this works is because we have a stack so we build on top of the cuurent state
+        // hence while returning we can restore the board
        return ans;   
     }
     
