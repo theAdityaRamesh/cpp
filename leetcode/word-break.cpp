@@ -40,6 +40,23 @@ public:
         // each starting position.
         // 12. And while unrolling if we hit a endIndex of a previous solution and find that we
         // have got a solution uptill that point we stop the search
+        //
+        // EXAMPLE
+        // dict : (0)a, (1)aa, (2)aaa, (3)aaaa
+        // s :       a a a a a a a a a a a  b 
+        // i :       0 1 2 3 4 5 6 7 8 9 10 11
+         // lastSol :l     3 m     3 n 1 2   
+        // 1. In the first pass we choose aaaa(3) and mark the end index in last sol
+        // 2. Because of b we find no string matches so we
+        // go back to the 'n' starting pos and 
+        // choose aaa(2) then we mark the end index 2 
+        // 3. Again b does not match so we choose aa(1) and mark it
+        // 4 .Again b does not match so we choose a(0)
+        // 5. Now at indx 8 we mark 0 then at index 9 we have 1 so that means we already 
+        // had a solution here in some prev call so we stop the search.
+        // Basically instead of going back to the start position again and again we go back to 
+        // the start and if we encounter a valid solution till that index we can say that no
+        // string can be formed from the dict words
         
         stack<pair<int,int>> start;
         start.push({0,-1});
