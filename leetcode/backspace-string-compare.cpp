@@ -55,7 +55,8 @@ public:
 class Solution1 {
 public:
     bool backspaceCompare(string s, string t) {
-        
+         //iterate string backwards
+        // as we need to remove chars before the backspace
         // backspace counts number of backspace 
         // encountered yet
         int backspace = 0;
