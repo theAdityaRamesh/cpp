@@ -1,4 +1,59 @@
-
+class Solution {
+public:
+    string simplifyPath(string path) {
+        // O(N) time O(N) space
+        // solution using stack
+        // push the folder names into stack
+        // each folder name is sepearated by a /
+        // if we encounter /.. or /. commands 
+        // remove elements from the stack
+        
+        stack<string> track;
+        string folder_name = "";
+        
+        for(int i = 0; i < path.size(); i++){
+            if(path[i] != '/'){
+                folder_name = "";
+                // if we encounter a /
+                // get everything till the next / or END
+                while(i < path.size() && path[i] != '/' ){
+                    folder_name += path[i];
+                    i++;
+                }
+                
+                // if we get a name ..
+                // it means go back so pop the top element
+                if(folder_name == ".."){
+                    if(!track.empty()){
+                        track.pop();
+                    }
+                // if we get a current directory cmd
+                // ignore dont do anything
+                } else if(folder_name == "."){
+                    continue;
+                // otherwise push the valud folder name 
+                } else{
+                    track.push('/'+folder_name);
+                }
+            }
+        }
+        
+        // get all the elements from the stack
+        string ans = "";
+        while(!track.empty()){
+            ans = track.top()+ans;
+            track.pop();
+        }
+        
+        // if we are @ root dir
+        // return /
+        if(ans.empty()){
+            return "/";
+        }
+        
+        return ans;
+    }
+};
 // O(n^2) time
 // bacause in worst case for i/p like this /../../../../../..
 // we have to scan till the start every time 
