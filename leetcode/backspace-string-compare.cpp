@@ -2,6 +2,60 @@ class Solution {
 public:
     bool backspaceCompare(string s, string t) {
         
+        // backspace operation is just like
+        // removing chars from TOS
+        // so maintain stack of chars
+        // push the chars if its not a backspace
+        // pop the chars if its a backspace
+        // repeat for the other string
+        // if we find a mismatch return false
+        // both stacks shud be equal @ the end
+        // we can use queue also or any DS that provides
+        // insertion and deletion in o(1)
+        
+        
+        stack<char> track;
+        for(char c : s){
+            if(c == '#'){
+                if(!track.empty()){
+                    track.pop();
+                }
+            } else{
+                track.push(c);
+            }
+        }
+        
+        stack<char> track1;
+        for(char c : t){
+            if(c == '#'){
+                if(!track1.empty()){
+                    track1.pop();
+                }
+            } else{
+                track1.push(c);
+            }
+        }
+        
+        if(track1.size() != track.size()){
+            return false;
+        }
+        
+        while(!track.empty()){
+            if(track.top() != track1.top()){
+                return false;
+            }
+            track.pop();
+            track1.pop();
+        }
+        
+        return true;
+    }
+};
+
+class Solution1 {
+public:
+    bool backspaceCompare(string s, string t) {
+        
         // backspace counts number of backspace 
         // encountered yet
         int backspace = 0;
