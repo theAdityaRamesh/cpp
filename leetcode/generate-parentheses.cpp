@@ -1,3 +1,56 @@
+// using recursion
+class Solution {
+public:
+    
+    
+    // the problem is imagined as follows
+    // we have n pairs of opening and closing brackets
+    // so n opening and closing each
+    // so we have to fill 2n places with ( & ) such that
+    // it becomes a balanced string
+    // this is only possible when we open a bracket before we close it
+    // hence #o <= #c always
+    // recursively generate this pairs
+    
+    
+    void fill(vector<string>& ans, string curr, int o, int c){
+        
+        if(o == 0 && c == 0){
+            ans.push_back(curr);
+            return;
+        } else{
+            
+            if(o == 0 && c != 0){
+                while(c){
+                    curr += ')';
+                    c--;
+                }
+                ans.push_back(curr);
+            } else if(o == c){
+                fill(ans, curr+'(', o-1, c);
+            } else{
+                
+                if(o-1 <= c){
+                    fill(ans, curr+'(',o-1,c);
+                }
+                
+                if(c-1 >= o){
+                    fill(ans, curr+')',o, c-1);
+                }
+            }
+        }
+        
+    }
+    
+    vector<string> generateParenthesis(int n) {
+        
+        vector<string> ans;
+        string curr = "";
+        fill(ans, curr,n, n);
+        return ans;
+    }
+};
+
 // using catalan numbers
 class Solution {
 public:    
