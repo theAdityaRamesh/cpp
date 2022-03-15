@@ -1,3 +1,46 @@
+// using catalan numbers
+class Solution {
+public:    
+    vector<string> generateParenthesis(int n) {
+        
+        // vector of ans
+        vector<vector<string>> ans;
+        ans.push_back({""}); // n = 0
+        ans.push_back({"()"}); // n = 1
+        
+        // generate the catalan numbers
+        // start with 1 pair () then add the rest inside or outside
+        // to form the rest of the combinations
+        // for n = 4
+        // (0)3
+        // (1)2
+        // (2)1
+        // (3)0
+        // ... just generate the nth catalan numbers
+        // save the previous states to avoid recomputation
+        
+        int i = 2;
+        while(i <= n){
+            int in = 0;   
+            int out = i-1;
+            vector<string> curr;
+            while(in < i){
+                for(int i = 0; i < ans[in].size(); i++){
+                    for(int j = 0; j < ans[out].size(); j++){
+                        curr.push_back('('+ans[in][i]+')'+ans[out][j]);
+                    }
+                }
+                in++;
+                out--;
+            }
+            ans.push_back(curr);
+            ++i;            
+        }        
+        
+        return ans.back();
+    }
+};
+/// ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 class Solution {
 public:
     
