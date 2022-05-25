@@ -1,3 +1,43 @@
+// even more elegant solution by yours truly with less memory
+
+bool isValidSudoku(vector<vector<char>>& mat) {
+        
+        // store the numbers encounterd till now
+        vector<vector<int>> check(9);
+        
+        for(int i = 0; i < mat.size()*mat[0].size(); i++){
+            
+            // if empty continue
+            if(mat[i/mat[0].size()][i%mat[0].size()] == '.'){
+                continue;
+            }
+            
+//             if none of this number have been found
+            if(check[mat[i/mat[0].size()][i%mat[0].size()]-'0'-1].empty()){
+                // store it - first encounter
+                check[mat[i/mat[0].size()][i%mat[0].size()]-'0'-1].push_back(i);
+            } else{
+                // second encouter
+                // check the list of previously encoutered for the same number
+                for(int indx : check[mat[i/mat[0].size()][i%mat[0].size()]-'0'-1]){
+                    // check if clashing rows
+                    // clashing cols
+                    // clashing blocks
+                    if(indx%mat[0].size() == i%mat[0].size() || i/mat[0].size() == indx/mat[0].size() || ((i/(mat[0].size()*3))*3 +(i%(mat[0].size()))/3) == ((indx/(mat[0].size()*3))*3 +(indx%(mat[0].size()))/3)    ){
+                        // if yes return false
+                        return false;
+                    }
+                }
+                // otherwise store it 
+                check[mat[i/mat[0].size()][i%mat[0].size()]-'0'-1].push_back(i);
+                
+            }
+        }
+        
+    // if no clashes return true
+        return true;
+    }
+
 // more elegant solution 
 // need to traverse matrix only once
 
