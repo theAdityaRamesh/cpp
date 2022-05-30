@@ -1,4 +1,6 @@
 // method 1 using prefix sum
+// O(mn) storgate
+// O(m) query
 
 class NumMatrix {
 public:
@@ -47,3 +49,34 @@ private :
     
     
 };
+
+// method 2 using storing rectangles
+// O(mn) storage O(1) query
+
+class NumMatrix {
+public:
+    
+    vector<vector<int>> sum;
+    
+    NumMatrix(vector<vector<int>>& matrix) {   
+        vector<vector<int>> mat(matrix.size()+1, vector<int> (matrix[0].size()+1,0));
+        
+        for(int row = 0; row < matrix.size(); row++){
+            for(int col = 0; col < matrix[0].size(); col++){
+                mat[row+1][col+1] = mat[row][col+1] + mat[row+1][col] + matrix[row][col] - mat[row][col];
+            }
+        }
+        
+        sum = move(mat);
+    }
+    
+    int sumRegion(int row1, int col1, int row2, int col2) {
+        return sum[row2+1][col2+1]-sum[row1][col2+1]-sum[row2+1][col1]+sum[row1][col1]; 
+    }
+};
+
+/**
+ * Your NumMatrix object will be instantiated and called as such:
+ * NumMatrix* obj = new NumMatrix(matrix);
+ * int param_1 = obj->sumRegion(row1,col1,row2,col2);
+ */
