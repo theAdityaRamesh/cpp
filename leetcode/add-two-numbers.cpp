@@ -1,5 +1,7 @@
 // https://leetcode.com/problems/add-two-numbers/
 
+
+// m1 - create new nodes tp store ans
 // struct ListNode {
 //       int val;
 //       ListNode *next;
@@ -55,3 +57,60 @@ public:
     }
 };
 
+// inplace ans storage
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        
+        ListNode* head =l1;
+        int ans = 0;
+        while(l1->next && l2->next){
+            ans += l1->val + l2->val;
+            l1->val = ans%10;
+            ans /= 10;
+            l1 = l1->next;
+            l2 = l2->next;
+        }
+        
+        // connect l1 to l2 is l2 is shorter
+        if(!l1->next && l2->next){
+            l1->next = l2->next;
+        }
+    
+        ans += l1->val + l2->val;
+        l1->val = ans%10;
+        ans /= 10;
+        
+        while(ans != 0 && l1->next){
+            ans += l1->next->val;
+            l1->next->val = ans%10;
+            ans /= 10;
+            l1 = l1->next;
+        }
+        
+        
+        while(ans != 0){
+            ListNode* node = new ListNode;
+            node->val = ans%10;
+            node->next = nullptr;
+            l1->next = node;
+            l1 = node;
+            ans /= 10;
+        }
+        
+        
+        
+        return head;
+    }
+};
