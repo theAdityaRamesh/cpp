@@ -12,40 +12,52 @@ class Solution {
 public:
     ListNode* rotateRight(ListNode* head, int k) {
         
-        // if empty list or num shifts is zero
-        // return the same list
-        if(!head || k == 0){
+        // if no nodes or single node
+        // return the head
+        if(!head || !head->next){
+            return head;
+        }
+
+        // get list size
+        // use list size operation
+        // to get the last node as well
+        // by passing a reference to a pointer
+        int list_size = 0;
+        ListNode* last = head;
+        list_size = get_size(last);
+        
+        k %= list_size;
+        // if k = 0 we dont have to rotate
+        if(k == 0){
             return head;
         }
         
-        // store the head
-        ListNode* prev = head;
-        int size = 0;
-
-        // traverse the list once to find its length
-        while(head->next){
-            size++;
+        // take the last node connect it to the first node
+        last->next = head;
+        
+        // sever the connection b/w the n-k-1th node and n-kth node
+        // return n-kth node as new head
+        list_size -= (k+1);
+        while(list_size){
             head = head->next;
+            list_size--;
         }
         
-        // connect the tail and head nodes
-        head->next = prev;
-        head = prev;
+        last = head->next;
+        head->next = nullptr;
         
-        // scale the k to be within [0,size]
-        k = k%(size+1);
-        
-        // now we need to go to the n-k-1 th node
-        // and sever the next connection
-        // then return the n-k th node as the new head
-        while(size - k > 0 ){
-            size--;
-            head = head->next;
-        }
-        
-        prev = head;
-        head = head->next;
-        prev->next = nullptr;
-        return head;
+        return last;
     }
+    
+private:
+    
+    int get_size(ListNode*& head){
+        int ans = 0;
+        while(head->next){
+            ++ans;
+            head = head->next;
+        }
+        return ans+1;
+    }
+    
 };
